@@ -2,11 +2,15 @@ package domain;
 
 public class PessoaFisica extends Contribuinte {
 
-    private double gastosSaude;
+    private Double gastosSaude;
 
-    public PessoaFisica(String nome, double rendaAnual, double gastosSaude) {
+    public PessoaFisica(String nome, Double rendaAnual, Double gastosSaude) {
         super(nome, rendaAnual);
         this.gastosSaude = gastosSaude;
+    }
+
+    public Double getGastosSaude() {
+        return gastosSaude;
     }
 
     @Override
@@ -20,6 +24,10 @@ public class PessoaFisica extends Contribuinte {
         }
 
         impostoBase -= gastosSaude * 0.5;
+
+        if (impostoBase < 0) {
+            impostoBase = 0;
+        }
 
         return impostoBase;
     }
