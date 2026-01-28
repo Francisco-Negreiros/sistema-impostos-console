@@ -1,11 +1,18 @@
 package domain;
 
+import domain.exception.DadosInvalidosException;
+
 public class PessoaJuridica extends Contribuinte {
 
     private Integer numeroFuncionarios;
-
+    
     public PessoaJuridica(String nome, Double rendaAnual, Integer numeroFuncionarios) {
         super(nome, rendaAnual);
+        
+        if (numeroFuncionarios < 0) {
+        	throw new DadosInvalidosException("Número de funcionários não pode ser negativo");
+        }
+        
         this.numeroFuncionarios = numeroFuncionarios;
     }
 

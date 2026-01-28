@@ -1,5 +1,7 @@
 package domain;
 
+import domain.exception.DadosInvalidosException;
+
 public abstract class Contribuinte {
 
     private String nome;
@@ -7,6 +9,11 @@ public abstract class Contribuinte {
 
     public Contribuinte(String nome, double rendaAnual) {
         this.nome = nome;
+         
+        if (rendaAnual < 0) {
+        	throw new DadosInvalidosException("Renda anual não pode ser negativa");
+        }
+        
         this.rendaAnual = rendaAnual;
     }
 
