@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import domain.Contribuinte;
+import domain.PessoaFisica;
 import domain.service.CalculadoraImpostos;
 import domain.service.RelatorioImpostos;
 
@@ -12,178 +13,83 @@ public class ConsoleUI {
 
     private Scanner scanner = new Scanner(System.in);
     private List<Contribuinte> contribuintes = new ArrayList<>();
+
     private CalculadoraImpostos calculadora = new CalculadoraImpostos();
     private RelatorioImpostos relatorio = new RelatorioImpostos();
-
-    public void iniciar() {
-        System.out.println("=== SISTEMA DE IMPOSTOS ===");
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*package application;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-import domain.Contribuinte;
-import domain.PessoaFisica;
-import domain.PessoaJuridica;
-
-public class ConsoleUI {
-
-    private Scanner scanner = new Scanner(System.in);
-    private List<Contribuinte> contribuintes = new ArrayList<>();
 
     public void iniciar() {
         int opcao;
 
         do {
             mostrarMenu();
-            opcao = scanner.nextInt();
-            scanner.nextLine(); // limpar buffer
-
-            switch (opcao) {
-                case 1:
-                    cadastrarPessoaFisica();
-                    break;
-                case 2:
-                    cadastrarPessoaJuridica();
-                    break;
-                case 3:
-                    listarImpostos();
-                    break;
-                case 0:
-                    System.out.println("Encerrando sistema...");
-                    break;
-                default:
-                    System.out.println("Opção inválida!");
-            }
-
+            opcao = lerOpcao();
+            executarOpcao(opcao);
         } while (opcao != 0);
+
+        System.out.println("Sistema encerrado.");
     }
-    
+
     private void mostrarMenu() {
         System.out.println("\n=== SISTEMA DE IMPOSTOS ===");
         System.out.println("1 - Cadastrar Pessoa Física");
         System.out.println("2 - Cadastrar Pessoa Jurídica");
-        System.out.println("3 - Listar impostos");
+        System.out.println("3 - Listar Contribuintes");
+        System.out.println("4 - Calcular Impostos");
         System.out.println("0 - Sair");
-        System.out.print("Escolha uma opção: ");
     }
+
+    private int lerOpcao() {
+        System.out.print("Escolha uma opção: ");
+        return scanner.nextInt();
+    }
+
+    private void executarOpcao(int opcao) {
+        switch (opcao) {
+            case 1:
+                cadastrarPessoaFisica();
+                break;
+            case 2:
+                System.out.println("Cadastro de Pessoa Jurídica (em breve)");
+                break;
+            case 3:
+                relatorio.imprimir(contribuintes);
+                break;
+            case 4:
+                double total = calculadora.calcularTotal(contribuintes);
+                System.out.printf("Total de impostos: %.2f%n", total);
+                break;
+            case 0:
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
+    }
+
     
     private void cadastrarPessoaFisica() {
+        System.out.println("\n=== Cadastro de Pessoa Física ===");
 
-        System.out.print("Nome: ");
-        String nome = scanner.nextLine();
+        try {
+            System.out.print("Nome: ");
+            scanner.nextLine(); // limpa buffer
+            String nome = scanner.nextLine();
 
-        System.out.print("Renda anual: ");
-        double renda = scanner.nextDouble();
+            System.out.print("Renda anual: ");
+            double rendaAnual = scanner.nextDouble();
 
-        System.out.print("Gastos com saúde: ");
-        double gastosSaude = scanner.nextDouble();
-        scanner.nextLine();
+            System.out.print("Gastos com saúde: ");
+            double gastosSaude = scanner.nextDouble();
 
-        Contribuinte pf = new PessoaFisica(nome, renda, gastosSaude);
-        contribuintes.add(pf);
+            Contribuinte pf = new PessoaFisica(nome, rendaAnual, gastosSaude);
+            contribuintes.add(pf);
 
-        System.out.println("✅ Pessoa Física cadastrada!");
-    }
+            System.out.println("Pessoa Física cadastrada com sucesso!");
 
-    private void cadastrarPessoaJuridica() {
-
-        System.out.print("Nome: ");
-        String nome = scanner.nextLine();
-
-        System.out.print("Renda anual: ");
-        double renda = scanner.nextDouble();
-
-        System.out.print("Número de funcionários: ");
-        int funcionarios = scanner.nextInt();
-        scanner.nextLine();
-
-        Contribuinte pj = new PessoaJuridica(nome, renda, funcionarios);
-        contribuintes.add(pj);
-
-        System.out.println("✅ Pessoa Jurídica cadastrada!");
-    }
-
-    private void listarImpostos() {
-
-        if (contribuintes.isEmpty()) {
-            System.out.println("Nenhum contribuinte cadastrado.");
-            return;
+        } catch (Exception e) {
+            System.out.println("Erro ao cadastrar Pessoa Física: " + e.getMessage());
+            scanner.nextLine(); // evita loop quebrado
         }
-
-        double total = 0.0;
-
-        System.out.println("\n--- IMPOSTOS ---");
-        for (Contribuinte c : contribuintes) {
-            double imposto = c.calcularImposto();
-            System.out.println(c.getNome() + " - R$ " + String.format("%.2f", imposto));
-            total += imposto;
-        }
-
-        System.out.println("\nTOTAL DE IMPOSTOS: R$ " + String.format("%.2f", total));
     }
-}*/
+
+}
+
