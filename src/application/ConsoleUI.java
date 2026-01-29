@@ -5,6 +5,88 @@ import java.util.List;
 import java.util.Scanner;
 
 import domain.Contribuinte;
+import domain.service.CalculadoraImpostos;
+import domain.service.RelatorioImpostos;
+
+public class ConsoleUI {
+
+    private Scanner scanner = new Scanner(System.in);
+    private List<Contribuinte> contribuintes = new ArrayList<>();
+    private CalculadoraImpostos calculadora = new CalculadoraImpostos();
+    private RelatorioImpostos relatorio = new RelatorioImpostos();
+
+    public void iniciar() {
+        System.out.println("=== SISTEMA DE IMPOSTOS ===");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*package application;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import domain.Contribuinte;
 import domain.PessoaFisica;
 import domain.PessoaJuridica;
 
@@ -104,4 +186,4 @@ public class ConsoleUI {
 
         System.out.println("\nTOTAL DE IMPOSTOS: R$ " + String.format("%.2f", total));
     }
-}
+}*/
