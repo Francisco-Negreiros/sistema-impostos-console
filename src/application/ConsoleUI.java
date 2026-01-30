@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import domain.Contribuinte;
 import domain.PessoaFisica;
+import domain.PessoaJuridica;
 import domain.service.CalculadoraImpostos;
 import domain.service.RelatorioImpostos;
 
@@ -28,9 +29,11 @@ public class ConsoleUI {
 
         System.out.println("Sistema encerrado.");
     }
-
+    
     private void mostrarMenu() {
-        System.out.println("\n=== SISTEMA DE IMPOSTOS ===");
+        System.out.println("\n==============================");
+        System.out.println("      SISTEMA DE IMPOSTOS");
+        System.out.println("==============================");
         System.out.println("1 - Cadastrar Pessoa Física");
         System.out.println("2 - Cadastrar Pessoa Jurídica");
         System.out.println("3 - Listar Contribuintes");
@@ -40,8 +43,11 @@ public class ConsoleUI {
 
     private int lerOpcao() {
         System.out.print("Escolha uma opção: ");
-        return scanner.nextInt();
+        int opcao = scanner.nextInt();
+        scanner.nextLine(); // consome ENTER
+        return opcao;
     }
+    
 
     private void executarOpcao(int opcao) {
         switch (opcao) {
@@ -49,14 +55,22 @@ public class ConsoleUI {
                 cadastrarPessoaFisica();
                 break;
             case 2:
-                System.out.println("Cadastro de Pessoa Jurídica (em breve)");
+            	cadastrarPessoaJuridica();
                 break;
             case 3:
-                relatorio.imprimir(contribuintes);
+                if (contribuintes.isEmpty()) {
+                    System.out.println("Nenhum contribuinte cadastrado.");
+                } else {
+                    relatorio.imprimir(contribuintes);
+                }
                 break;
             case 4:
-                double total = calculadora.calcularTotal(contribuintes);
-                System.out.printf("Total de impostos: %.2f%n", total);
+            	if (contribuintes.isEmpty()) {
+                    System.out.println("Nenhum contribuinte cadastrado.");
+                } else {
+                    double total = calculadora.calcularTotal(contribuintes);
+                    System.out.printf("Total de impostos: %.2f%n", total);
+                }
                 break;
             case 0:
                 break;
@@ -71,9 +85,8 @@ public class ConsoleUI {
 
         try {
             System.out.print("Nome: ");
-            scanner.nextLine(); // limpa buffer
             String nome = scanner.nextLine();
-
+            
             System.out.print("Renda anual: ");
             double rendaAnual = scanner.nextDouble();
 
@@ -87,6 +100,30 @@ public class ConsoleUI {
 
         } catch (Exception e) {
             System.out.println("Erro ao cadastrar Pessoa Física: " + e.getMessage());
+            scanner.nextLine(); // evita loop quebrado
+        }
+    }
+    
+    private void cadastrarPessoaJuridica() {
+        System.out.println("\n=== Cadastro de Pessoa Jurídica ===");
+
+        try {
+            System.out.print("Nome: ");
+            String nome = scanner.nextLine();
+
+            System.out.print("Renda anual: ");
+            double rendaAnual = scanner.nextDouble();
+
+            System.out.print("Número de Funcionários: ");
+            int numeroFuncionarios = scanner.nextInt();
+
+            Contribuinte pj = new PessoaJuridica(nome, rendaAnual, numeroFuncionarios);
+            contribuintes.add(pj);
+
+            System.out.println("Pessoa Jurídica cadastrada com sucesso!");
+
+        } catch (Exception e) {
+            System.out.println("Erro ao cadastrar Pessoa Jurídica: " + e.getMessage());
             scanner.nextLine(); // evita loop quebrado
         }
     }

@@ -5,12 +5,15 @@ import domain.exception.DadosInvalidosException;
 public class PessoaJuridica extends Contribuinte {
 
     private Integer numeroFuncionarios;
+    private static final double ALIQUOTA = 0.16;
+    private static final double DESCONTO_FUNCIONARIOS = 0.14;
+
     
     public PessoaJuridica(String nome, Double rendaAnual, Integer numeroFuncionarios) {
         super(nome, rendaAnual);
         
-        if (numeroFuncionarios < 0) {
-        	throw new DadosInvalidosException("Número de funcionários não pode ser negativo");
+        if (numeroFuncionarios == null || numeroFuncionarios < 0) {
+            throw new DadosInvalidosException("Número de funcionários inválido");
         }
         
         this.numeroFuncionarios = numeroFuncionarios;
@@ -22,12 +25,12 @@ public class PessoaJuridica extends Contribuinte {
 
     @Override
     public double calcularImposto() {
-        double impostoBase = getRendaAnual() * 0.16;
+    	double impostoBase = getRendaAnual() * ALIQUOTA;
 
-        if (numeroFuncionarios > 10) {
-            impostoBase -= impostoBase * 0.14;
-        }
-
+    	if (numeroFuncionarios > 10) {
+    	    impostoBase -= impostoBase * DESCONTO_FUNCIONARIOS;
+    	}
+       
         return impostoBase;
     }
 }
