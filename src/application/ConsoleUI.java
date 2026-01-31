@@ -9,17 +9,25 @@ import domain.PessoaFisica;
 import domain.PessoaJuridica;
 import domain.service.CalculadoraImpostos;
 import domain.service.RelatorioImpostos;
+import domain.repository.ContribuinteCSVRepository;
+
 
 public class ConsoleUI {
 
     private Scanner scanner = new Scanner(System.in);
+    private ContribuinteCSVRepository repository = new ContribuinteCSVRepository();
     private List<Contribuinte> contribuintes = new ArrayList<>();
 
     private CalculadoraImpostos calculadora = new CalculadoraImpostos();
     private RelatorioImpostos relatorio = new RelatorioImpostos();
+    
+    
 
     public void iniciar() {
-        int opcao;
+    	
+    	contribuintes = repository.carregar();
+    	
+    	int opcao;
 
         do {
             mostrarMenu();
@@ -27,8 +35,11 @@ public class ConsoleUI {
             executarOpcao(opcao);
         } while (opcao != 0);
 
+        repository.salvar(contribuintes);
         System.out.println("Sistema encerrado.");
     }
+    
+    
     
     private void mostrarMenu() {
         System.out.println("\n==============================");
