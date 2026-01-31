@@ -1,2 +1,4 @@
-PF;Valter;60000.0;3600.0
-PJ;AdriPlantas;50000.0;2
+tipo;nome;renda;extra
+PF;John;500000.0;2000.0
+PJ;Space J;4000000.0;25
+PF;Mary;80000.0;1000.0

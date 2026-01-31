@@ -23,6 +23,9 @@ public class ContribuinteCSVRepository {
         arquivo.getParentFile().mkdirs();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))) {
+        	
+        	writer.write("tipo;nome;renda;extra");
+        	writer.newLine();
 
             for (Contribuinte c : lista) {
 
@@ -54,6 +57,8 @@ public class ContribuinteCSVRepository {
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
+        	
+        	reader.readLine(); // ignora header
 
             String linha;
 

@@ -21,25 +21,22 @@ public class ConsoleUI {
     private CalculadoraImpostos calculadora = new CalculadoraImpostos();
     private RelatorioImpostos relatorio = new RelatorioImpostos();
     
-    
-
     public void iniciar() {
-    	
-    	contribuintes = repository.carregar();
-    	
-    	int opcao;
 
-        do {
+        contribuintes = repository.carregar();
+        System.out.println("Dados carregados com sucesso! (" 
+                + contribuintes.size() + " contribuintes)");
+
+        boolean continuar = true;
+
+        while (continuar) {
             mostrarMenu();
-            opcao = lerOpcao();
-            executarOpcao(opcao);
-        } while (opcao != 0);
+            int opcao = lerOpcao();
+            continuar = executarOpcao(opcao);
+        }
 
-        repository.salvar(contribuintes);
         System.out.println("Sistema encerrado.");
     }
-    
-    
     
     private void mostrarMenu() {
         System.out.println("\n==============================");
@@ -59,14 +56,13 @@ public class ConsoleUI {
         return opcao;
     }
     
-
-    private void executarOpcao(int opcao) {
+    private boolean executarOpcao(int opcao) {
         switch (opcao) {
             case 1:
                 cadastrarPessoaFisica();
                 break;
             case 2:
-            	cadastrarPessoaJuridica();
+                cadastrarPessoaJuridica();
                 break;
             case 3:
                 if (contribuintes.isEmpty()) {
@@ -76,7 +72,7 @@ public class ConsoleUI {
                 }
                 break;
             case 4:
-            	if (contribuintes.isEmpty()) {
+                if (contribuintes.isEmpty()) {
                     System.out.println("Nenhum contribuinte cadastrado.");
                 } else {
                     double total = calculadora.calcularTotal(contribuintes);
@@ -84,11 +80,18 @@ public class ConsoleUI {
                 }
                 break;
             case 0:
-                break;
+                if (confirmarSaida()) {
+                    repository.salvar(contribuintes);
+                    System.out.println("Dados salvos. Encerrando sistema...");
+                    return false; // sair do sistema
+                }
+                return true; // continuar no menu
             default:
                 System.out.println("Opção inválida.");
         }
+        return true;
     }
+
 
     
     private void cadastrarPessoaFisica() {
@@ -106,6 +109,8 @@ public class ConsoleUI {
 
             Contribuinte pf = new PessoaFisica(nome, rendaAnual, gastosSaude);
             contribuintes.add(pf);
+            
+            repository.salvar(contribuintes);
 
             System.out.println("Pessoa Física cadastrada com sucesso!");
 
@@ -113,6 +118,7 @@ public class ConsoleUI {
             System.out.println("Erro ao cadastrar Pessoa Física: " + e.getMessage());
             scanner.nextLine(); // evita loop quebrado
         }
+        
     }
     
     private void cadastrarPessoaJuridica() {
@@ -130,6 +136,8 @@ public class ConsoleUI {
 
             Contribuinte pj = new PessoaJuridica(nome, rendaAnual, numeroFuncionarios);
             contribuintes.add(pj);
+            
+            repository.salvar(contribuintes);
 
             System.out.println("Pessoa Jurídica cadastrada com sucesso!");
 
@@ -137,6 +145,13 @@ public class ConsoleUI {
             System.out.println("Erro ao cadastrar Pessoa Jurídica: " + e.getMessage());
             scanner.nextLine(); // evita loop quebrado
         }
+        
+    }
+    
+    private boolean confirmarSaida() {
+        System.out.print("Deseja realmente sair do sistema? (s/n): ");
+        String resposta = scanner.nextLine().trim().toLowerCase();
+        return resposta.equals("s");
     }
 
 }
