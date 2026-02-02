@@ -34,26 +34,29 @@ persistidos entre execuções.
 ---
 
 ## Estrutura do Projeto
+
+```text
 src/
-├── application
-│ ├── ConsoleUI.java
-│ └── ProgramaImpostos.java
-│
-├── domain
-│ ├── Contribuinte.java
-│ ├── PessoaFisica.java
-│ ├── PessoaJuridica.java
-│ └── TipoContribuinte.java
-│
-├── domain.repository
-│ └── ContribuinteCSVRepository.java
-│
-├── domain.service
-│ ├── CalculadoraImpostos.java
-│ └── RelatorioImpostos.java
-│
+ ├─ application/
+ │   ├─ ConsoleUI.java
+ │   └─ ProgramaImpostos.java
+ │
+ ├─ domain/
+ │   ├─ Contribuinte.java
+ │   ├─ PessoaFisica.java
+ │   ├─ PessoaJuridica.java
+ │   ├─ TipoContribuinte.java
+ │
+ │   ├─ repository/
+ │   │   └─ ContribuinteCSVRepository.java
+ │
+ │   └─ service/
+ │       ├─ CalculadoraImpostos.java
+ │       └─ RelatorioImpostos.java
+ │
 dados/
-└── contribuintes.csv
+ └─ contribuintes.csv
+```
 
 ## Como Executar
 
