@@ -1,26 +1,27 @@
 package domain;
 
-import domain.exception.DadosInvalidosException;
-
 public abstract class Contribuinte {
 
     private String nome;
     private double rendaAnual;
+    private TipoContribuinte tipo;
 
-    public Contribuinte(String nome, Double rendaAnual) {
-
-        if (nome == null || nome.trim().isEmpty()) {
-            throw new DadosInvalidosException("Nome não pode ser vazio");
+    protected Contribuinte(String nome, double rendaAnual, TipoContribuinte tipo) {
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome inválido");
         }
-
         if (rendaAnual < 0) {
-            throw new DadosInvalidosException("Renda anual não pode ser negativa");
+            throw new IllegalArgumentException("Renda anual não pode ser negativa");
         }
 
         this.nome = nome;
         this.rendaAnual = rendaAnual;
+        this.tipo = tipo;
+    } 
+ 
+    public TipoContribuinte getTipo() {
+        return tipo;
     }
-
 
     public String getNome() {
         return nome;
@@ -31,5 +32,8 @@ public abstract class Contribuinte {
     }
 
     public abstract double calcularImposto();
+       
 }
+
+
 

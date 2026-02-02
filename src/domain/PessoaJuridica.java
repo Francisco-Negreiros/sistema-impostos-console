@@ -1,36 +1,31 @@
 package domain;
 
-import domain.exception.DadosInvalidosException;
-
 public class PessoaJuridica extends Contribuinte {
 
-    private Integer numeroFuncionarios;
-    private static final double ALIQUOTA = 0.16;
-    private static final double DESCONTO_FUNCIONARIOS = 0.14;
+    private int numeroFuncionarios;
 
-    
-    public PessoaJuridica(String nome, Double rendaAnual, Integer numeroFuncionarios) {
-        super(nome, rendaAnual);
-        
-        if (numeroFuncionarios == null || numeroFuncionarios < 0) {
-            throw new DadosInvalidosException("Número de funcionários inválido");
+    public PessoaJuridica(String nome, double rendaAnual, int numeroFuncionarios) {
+        super(nome, rendaAnual, TipoContribuinte.PESSOA_JURIDICA);
+
+        if (numeroFuncionarios < 0) {
+            throw new IllegalArgumentException("Número de funcionários não pode ser negativo");
         }
-        
+
         this.numeroFuncionarios = numeroFuncionarios;
     }
 
-    public Integer getNumeroFuncionarios() {
+    public int getNumeroFuncionarios() {
         return numeroFuncionarios;
     }
 
     @Override
     public double calcularImposto() {
-    	double impostoBase = getRendaAnual() * ALIQUOTA;
+        double imposto = getRendaAnual() * 0.16;
 
-    	if (numeroFuncionarios > 10) {
-    	    impostoBase -= impostoBase * DESCONTO_FUNCIONARIOS;
-    	}
-       
-        return impostoBase;
+        if (numeroFuncionarios > 10) {
+            imposto -= imposto * 0.14;
+        }
+
+        return imposto;
     }
 }

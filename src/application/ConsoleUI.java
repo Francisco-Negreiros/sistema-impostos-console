@@ -114,9 +114,8 @@ public class ConsoleUI {
 
             System.out.println("Pessoa Física cadastrada com sucesso!");
 
-        } catch (Exception e) {
-            System.out.println("Erro ao cadastrar Pessoa Física: " + e.getMessage());
-            scanner.nextLine(); // evita loop quebrado
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro: " + e.getMessage());
         }
         
     }
@@ -141,9 +140,8 @@ public class ConsoleUI {
 
             System.out.println("Pessoa Jurídica cadastrada com sucesso!");
 
-        } catch (Exception e) {
-            System.out.println("Erro ao cadastrar Pessoa Jurídica: " + e.getMessage());
-            scanner.nextLine(); // evita loop quebrado
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro: " + e.getMessage());
         }
         
     }

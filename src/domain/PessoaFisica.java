@@ -1,21 +1,20 @@
 package domain;
-import domain.exception.DadosInvalidosException;
 
 public class PessoaFisica extends Contribuinte {
 
-    private Double gastosSaude;
+    private double gastosSaude;
 
-    public PessoaFisica(String nome, Double rendaAnual, Double gastosComSaude) {
+    public PessoaFisica(String nome, double rendaAnual, double gastosSaude) {
+        super(nome, rendaAnual, TipoContribuinte.PESSOA_FISICA);
 
-    	super(nome, rendaAnual);
-
-        if (gastosComSaude < 0) {
-            throw new DadosInvalidosException("Gastos com saúde não podem ser negativos");
+        if (gastosSaude < 0) {
+            throw new IllegalArgumentException("Gastos com saúde não podem ser negativos");
         }
-        this.gastosSaude = gastosComSaude;
+
+        this.gastosSaude = gastosSaude;
     }
-    
-    public Double getGastosSaude() {
+
+    public double getGastosSaude() {
         return gastosSaude;
     }
 
@@ -31,12 +30,6 @@ public class PessoaFisica extends Contribuinte {
 
         impostoBase -= gastosSaude * 0.5;
 
-        if (impostoBase < 0) {
-            impostoBase = 0;
-        }
-
-        return impostoBase;
+        return Math.max(impostoBase, 0);
     }
-    
-    
 }
