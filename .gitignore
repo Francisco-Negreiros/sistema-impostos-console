@@ -1,1 +1,23 @@
+# ===== Java =====
+*.class
+*.log
+
+# ===== Build =====
 /bin/
+/target/
+
+# ===== Eclipse =====
+.project
+.classpath
+.settings/
+
+# ===== VS Code (se abrir lá) =====
+.vscode/
+
+# ===== IntelliJ (segurança extra) =====
+.idea/
+*.iml
+
+# ===== Sistema =====
+.DS_Store
+Thumbs.db
